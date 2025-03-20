@@ -52,7 +52,7 @@
 ```bash
 # リポジトリのクローン
 git clone https://github.com/Marquisxl/fail-tracker
-cd failure_tracker
+cd failure-tracker
 
 # 依存関係のインストール
 bundle install
