@@ -1,0 +1,68 @@
+<div class="card mb-4">
+  <div class="card-header">
+    <h1><%= @failure.title %></h1>
+    <span class="badge bg-info"><%= @failure.category.name %></span>
+    <small class="text-muted"><%= @failure.date.strftime('%Y年%m月%d日') %></small>
+  </div>
+  <div class="card-body">
+    <h5>詳細説明</h5>
+    <p><%= simple_format(@failure.description) %></p>
+    
+    <h5>学んだ教訓</h5>
+    <p><%= simple_format(@failure.lessons_learned) %></p>
+    
+    <% if @failure.analysis.present? %>
+      <hr>
+      <h5>失敗の分析</h5>
+      
+      <div class="card mb-3">
+        <div class="card-header">内的要因</div>
+        <div class="card-body">
+          <%= simple_format(@failure.analysis.internal_factors) %>
+        </div>
+      </div>
+      
+      <div class="card mb-3">
+        <div class="card-header">環境要因</div>
+        <div class="card-body">
+          <%= simple_format(@failure.analysis.external_factors) %>
+        </div>
+      </div>
+      
+      <%= link_to '分析を編集', edit_failure_analysis_path(@failure), class: 'btn btn-sm btn-outline-secondary' %>
+    <% else %>
+      <hr>
+      <p>この失敗の分析はまだ行われていません。</p>
+      <%= link_to '分析を追加', new_failure_analysis_path(@failure), class: 'btn btn-sm btn-outline-primary' %>
+    <% end %>
+    
+    <% if @failure.perspective_analyses.any? %>
+      <hr>
+      <h5>偉人の視点からの分析</h5>
+      
+      <% @failure.perspective_analyses.includes(:perspective).each do |analysis| %>
+        <div class="card mb-3">
+          <div class="card-header">
+            <%= analysis.perspective.name %>の視点
+            <small class="text-muted">(<%= analysis.perspective.characteristics %>)</small>
+          </div>
+          <div class="card-body">
+            <blockquote class="blockquote mb-3">
+              <p><%= analysis.perspective.quote %></p>
+              <footer class="blockquote-footer"><%= analysis.perspective.name %></footer>
+            </blockquote>
+            <%= simple_format(analysis.content) %>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+    
+    <hr>
+    <%= link_to '新しい偉人の視点から分析', new_failure_perspective_analysis_path(@failure), class: 'btn btn-sm btn-outline-primary' %>
+  </div>
+  <div class="card-footer">
+    <%= link_to '編集', edit_failure_path(@failure), class: 'btn btn-sm btn-outline-primary' %>
+    <%= link_to '削除', failure_path(@failure), data: { turbo_method: :delete, turbo_confirm: '本当に削除しますか？' }, class: 'btn btn-sm btn-outline-danger' %>
+    <%= link_to '戻る', failures_path, class: 'btn btn-sm btn-outline-secondary' %>
+  </div>
+</div> 

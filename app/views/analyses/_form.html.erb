@@ -1,0 +1,29 @@
+<%= form_with(model: [@failure, @analysis], url: failure_analysis_path(@failure)) do |form| %>
+  <% if analysis.errors.any? %>
+    <div class="alert alert-danger">
+      <h2><%= pluralize(analysis.errors.count, "error") %> prohibited this analysis from being saved:</h2>
+
+      <ul>
+        <% analysis.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= form.label :internal_factors, '内的要因（自分自身に関する要因）', class: 'form-label' %>
+    <div class="form-text mb-2">例：知識不足、集中力の欠如、過信、焦り、など</div>
+    <%= form.text_area :internal_factors, rows: 5, class: 'form-control' %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :external_factors, '環境要因（外部環境に関する要因）', class: 'form-label' %>
+    <div class="form-text mb-2">例：時間的制約、リソース不足、外部からの圧力、予期せぬ事態、など</div>
+    <%= form.text_area :external_factors, rows: 5, class: 'form-control' %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit '分析を保存', class: 'btn btn-primary' %>
+  </div>
+<% end %> 
