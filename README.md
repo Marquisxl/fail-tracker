@@ -78,7 +78,3 @@ rails server
 ## 開発者
 
 [ウィケ　マーキス]
-
-## ライセンス
-
-MIT License
